@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   ListResult,
   Paginable,
+  Pagination,
 } from "../../core/platform/framework/api/crud-service";
 import { Initializable, TwakeServiceProvider } from "../../core/platform/framework/api";
 import User, { UserPrimaryKey } from "./entities/user";
@@ -14,6 +15,7 @@ import WorkspaceUser, { WorkspaceUserPrimaryKey } from "./entities/workspace_use
 import Workspace, { WorkspacePrimaryKey } from "./entities/workspace";
 import { Observable } from "rxjs";
 import { ListUserOptions } from "./services/users/types";
+import { ListWorkspaceOptions } from "./services/workspace/types";
 
 export default interface UserServiceAPI extends TwakeServiceProvider, Initializable {
   users: UsersServiceAPI;
@@ -155,4 +157,15 @@ export interface WorkspaceServiceAPI
     workspaceId: Pick<WorkspaceUserPrimaryKey, "workspaceId">,
     pagination: Paginable,
   ): Observable<WorkspaceUser>;
+
+  /**
+   * Get the workspaces
+   *
+   * @param pagination
+   */
+  getWorkspaces(
+    pagination?: Pagination,
+    options?: ListWorkspaceOptions,
+    context?: ExecutionContext,
+  ): Promise<ListResult<Workspace>>;
 }
